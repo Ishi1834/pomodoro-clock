@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import TimeDisplay from "./Components/TimeDisplay";
+import Work from "./Components/LengthControl/Work";
+import Break from "./Components/LengthControl/Break";
+import Start from "./Components/TimeControl/Start";
+import Pause from "./Components/TimeControl/Pause";
+import Reset from "./Components/TimeControl/Reset";
+import Footer from "./Components/Footer";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="components">
+      <div className="topcomp">
+        <Work />
+        <Break />
+      </div>
+      <TimeDisplay />
+      <div className="bottomcomp">
+        <Start />
+        <Pause />
+        <Reset />
+      </div>
+      <Footer className="footer" />
     </div>
   );
-}
+};
 
 export default App;
