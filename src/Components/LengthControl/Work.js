@@ -1,24 +1,17 @@
 import React from "react";
-import { useState } from "react";
-const Work = () => {
-  const [count, setCount] = useState(25);
-
+const Work = (props) => {
   const handleIncrease = () => {
-    console.log("increase");
-    setCount(count + 1);
+    props.handleWork("increase");
   };
   const handleDecrease = () => {
-    console.log("decrease");
-    if (count >= 1) {
-      setCount(count - 1);
-    }
+    props.handleWork("decrease");
   };
   return (
     <div>
       <div className="title">Work time</div>
       <div className="time-grid">
         <div className="time-adjust">
-          <div>{count}:00</div>
+          <div>{props.workTime}:00</div>
         </div>
         <div className="interval-grid">
           <div>Change time interval</div>
