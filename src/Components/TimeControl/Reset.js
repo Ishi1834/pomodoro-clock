@@ -1,9 +1,13 @@
 import React from "react";
 
-const Reset = () => {
+const Reset = (props) => {
+  const handleClick = () => {
+    console.log("reset clicked");
+    props.handleReset();
+  };
   return (
     <div>
-      <button>Reset timer</button>
+      <button onClick={handleClick}>Reset timer</button>
     </div>
   );
 };

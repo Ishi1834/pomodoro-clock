@@ -5,8 +5,7 @@ const TimeDisplay = () => {
     <div className="timer">
       <div>Work/Break toggle</div>
       <div className="time">
-        <div>Time-minutes</div>
-        <div>Time-seconds</div>
+        <div>25:00</div>
       </div>
     </div>
   );

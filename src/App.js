@@ -8,8 +8,13 @@ import Reset from "./Components/TimeControl/Reset";
 import Footer from "./Components/Footer";
 
 const App = () => {
+  const handleReset = () => {
+    console.log("reset requested");
+    //pass reset function to child
+  };
   return (
     <div className="components">
+      <div className="web-title">Pomodoro Clock</div>
       <div className="topcomp">
         <Work />
         <Break />
@@ -18,7 +23,7 @@ const App = () => {
       <div className="bottomcomp">
         <Start />
         <Pause />
-        <Reset />
+        <Reset handleReset={handleReset} />
       </div>
       <Footer className="footer" />
     </div>
