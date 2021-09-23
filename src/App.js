@@ -34,7 +34,13 @@ import { Component } from "react";
 export class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { workTime: 25, breakTime: 5 };
+    this.state = {
+      workTime: 25,
+      breakTime: 5,
+      countdownMin: 25,
+      countdownSec: "00",
+      timer: false,
+    };
   }
   render() {
     const handleReset = () => {
@@ -54,6 +60,21 @@ export class App extends Component {
         this.setState({ breakTime: this.state.breakTime - 1 });
       }
     };
+    const timer = () => {
+      //create the timer function here
+      //update the stae of countdown when it is working
+      console.log("timer");
+    };
+    const timerOn = () => {
+      if (this.state.timer == false) {
+        this.setState({ timer: true, countdownMin: this.state.workTime });
+      }
+    };
+    const timerOff = () => {
+      if (this.state.timer == true) {
+        this.setState({ timer: false });
+      }
+    };
     return (
       <div className="components">
         <div className="web-title">Pomodoro Clock</div>
@@ -61,10 +82,10 @@ export class App extends Component {
           <Work {...this.state} handleWork={handleWork} />
           <Break {...this.state} handleBreak={handleBreak} />
         </div>
-        <TimeDisplay />
+        <TimeDisplay {...this.state} />
         <div className="bottomcomp">
-          <Start />
-          <Pause />
+          <Start timerOn={timerOn} />
+          <Pause timerOff={timerOff} />
           <Reset handleReset={handleReset} />
         </div>
         <Footer className="footer" />
