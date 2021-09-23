@@ -43,8 +43,15 @@ export class App extends Component {
     const handleWork = (someVal) => {
       if (someVal === "increase") {
         this.setState({ workTime: this.state.workTime + 1 });
-      } else {
+      } else if (this.state.workTime > 0) {
         this.setState({ workTime: this.state.workTime - 1 });
+      }
+    };
+    const handleBreak = (someVal) => {
+      if (someVal === "increase") {
+        this.setState({ breakTime: this.state.breakTime + 1 });
+      } else if (this.state.breakTime > 0) {
+        this.setState({ breakTime: this.state.breakTime - 1 });
       }
     };
     return (
@@ -52,7 +59,7 @@ export class App extends Component {
         <div className="web-title">Pomodoro Clock</div>
         <div className="topcomp">
           <Work {...this.state} handleWork={handleWork} />
-          <Break />
+          <Break {...this.state} handleBreak={handleBreak} />
         </div>
         <TimeDisplay />
         <div className="bottomcomp">

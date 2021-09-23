@@ -1,24 +1,17 @@
 import React from "react";
-import { useState } from "react";
-const Break = () => {
-  const [count, setCount] = useState(5);
-
+const Break = (props) => {
   const handleIncrease = () => {
-    console.log("increase");
-    setCount(count + 1);
+    props.handleBreak("increase");
   };
   const handleDecrease = () => {
-    console.log("decrease");
-    if (count >= 1) {
-      setCount(count - 1);
-    }
+    props.handleBreak("decrease");
   };
   return (
     <div>
       <div className="title">Break time</div>
       <div className="time-grid">
         <div className="time-adjust">
-          <div>{count}:00</div>
+          <div>{props.breakTime}:00</div>
         </div>
         <div className="interval-grid">
           <div>Change time interval</div>
