@@ -2,7 +2,6 @@ import React from "react";
 
 const Pause = (props) => {
   const handleClick = () => {
-    console.log("pause clicked");
     props.timerOff();
   };
   return (

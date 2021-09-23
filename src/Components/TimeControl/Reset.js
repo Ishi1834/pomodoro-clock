@@ -2,7 +2,6 @@ import React from "react";
 
 const Reset = (props) => {
   const handleClick = () => {
-    console.log("reset clicked");
     props.handleReset();
   };
   return (

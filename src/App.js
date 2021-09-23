@@ -5,30 +5,6 @@ import Start from "./Components/TimeControl/Start";
 import Pause from "./Components/TimeControl/Pause";
 import Reset from "./Components/TimeControl/Reset";
 import Footer from "./Components/Footer";
-/*
-const App = () => {
-  const handleReset = () => {
-    console.log("reset requested");
-    //pass reset function to child
-  };
-  return (
-    <div className="components">
-      <div className="web-title">Pomodoro Clock</div>
-      <div className="topcomp">
-        <Work />
-        <Break />
-      </div>
-      <TimeDisplay />
-      <div className="bottomcomp">
-        <Start />
-        <Pause />
-        <Reset handleReset={handleReset} />
-      </div>
-      <Footer className="footer" />
-    </div>
-  );
-};
-*/
 
 import { Component } from "react";
 export class App extends Component {
@@ -47,6 +23,7 @@ export class App extends Component {
       this.setState({ workTime: 25, breakTime: 5 });
     };
     const handleWork = (someVal) => {
+      if (this.state.timer) return;
       if (someVal === "increase") {
         this.setState({ workTime: this.state.workTime + 1 });
       } else if (this.state.workTime > 0) {
@@ -54,6 +31,7 @@ export class App extends Component {
       }
     };
     const handleBreak = (someVal) => {
+      if (this.state.timer) return;
       if (someVal === "increase") {
         this.setState({ breakTime: this.state.breakTime + 1 });
       } else if (this.state.breakTime > 0) {
@@ -61,17 +39,21 @@ export class App extends Component {
       }
     };
     const timer = () => {
-      //create the timer function here
-      //update the stae of countdown when it is working
-      console.log("timer");
+      var now = new Date().getTime();
+      var timeChoosen = this.state.countdownMin * 60000;
+      var countDownTime = timeChoosen + now;
+      var timeLeft = countDownTime - now;
+      console.log(timeLeft);
     };
     const timerOn = () => {
-      if (this.state.timer == false) {
+      if (this.state.timer === false) {
         this.setState({ timer: true, countdownMin: this.state.workTime });
+        console.log(this.state.countdownMin); // countDownMin isn't updating figure out the issue
+        timer();
       }
     };
     const timerOff = () => {
-      if (this.state.timer == true) {
+      if (this.state.timer === true) {
         this.setState({ timer: false });
       }
     };
