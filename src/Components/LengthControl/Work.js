@@ -8,16 +8,22 @@ const Work = (props) => {
   };
   return (
     <div>
-      <div className="title">Work time</div>
+      <div className="title" id="session-label">
+        Session Length
+      </div>
       <div className="time-grid">
         <div className="time-adjust">
-          <div>{props.workTime}:00</div>
+          <div id="session-length">{props.workTime}</div>
         </div>
         <div className="interval-grid">
           <div>Change time interval</div>
           <div className="interval-changer">
-            <button onClick={handleIncrease}>Increase</button>
-            <button onClick={handleDecrease}>Decrease</button>
+            <button onClick={handleIncrease} id="session-increment">
+              Increase
+            </button>
+            <button onClick={handleDecrease} id="session-decrement">
+              Decrease
+            </button>
           </div>
         </div>
       </div>

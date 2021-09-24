@@ -8,16 +8,22 @@ const Break = (props) => {
   };
   return (
     <div>
-      <div className="title">Break time</div>
+      <div className="title" id="break-label">
+        Break Length
+      </div>
       <div className="time-grid">
         <div className="time-adjust">
-          <div>{props.breakTime}:00</div>
+          <div id="break-length">{props.breakTime}</div>
         </div>
         <div className="interval-grid">
           <div>Change time interval</div>
           <div className="interval-changer">
-            <button onClick={handleIncrease}>Increase</button>
-            <button onClick={handleDecrease}>Decrease</button>
+            <button onClick={handleIncrease} id="break-increment">
+              Increase
+            </button>
+            <button onClick={handleDecrease} id="break-decrement">
+              Decrease
+            </button>
           </div>
         </div>
       </div>

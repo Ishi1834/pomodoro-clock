@@ -6,7 +6,9 @@ const Reset = (props) => {
   };
   return (
     <div>
-      <button onClick={handleClick}>Reset timer</button>
+      <button onClick={handleClick} id="reset">
+        Reset timer
+      </button>
     </div>
   );
 };

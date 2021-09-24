@@ -6,7 +6,9 @@ const Start = (props) => {
   };
   return (
     <div>
-      <button onClick={handleClick}>Start timer</button>
+      <button onClick={handleClick} id="start_stop">
+        Start timer
+      </button>
     </div>
   );
 };
