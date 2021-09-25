@@ -1,16 +1,16 @@
 import React from "react";
 
-const Start = (props) => {
+const StartPause = (props) => {
   const handleClick = () => {
-    props.timerOn();
+    props.timerOnOff();
   };
   return (
     <div>
       <button onClick={handleClick} id="start_stop">
-        Start timer
+        {props.startpause ? "Pause" : "Start"}
       </button>
     </div>
   );
 };
 
-export default Start;
+export default StartPause;

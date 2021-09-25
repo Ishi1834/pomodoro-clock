@@ -1,23 +1,24 @@
 import TimeDisplay from "./Components/TimeDisplay";
 import Work from "./Components/LengthControl/Work";
 import Break from "./Components/LengthControl/Break";
-import Start from "./Components/TimeControl/Start";
-import Pause from "./Components/TimeControl/Pause";
+import StartPause from "./Components/TimeControl/StartPause";
 import Reset from "./Components/TimeControl/Reset";
 import Footer from "./Components/Footer";
-
 import { Component } from "react";
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: "session",
       workTime: 25,
       breakTime: 5,
       countDownMilli: 0,
       timerState: "",
       timer: false,
+      startpause: false,
     };
   }
+
   render() {
     const handleWork = (someVal) => {
       if (this.state.timer) return;
@@ -39,12 +40,13 @@ export class App extends Component {
         this.setState({ breakTime: this.state.breakTime - 1 });
       }
     };
-
     var countDownTime =
       new Date().getTime() +
-      (this.state.countDownMilli === 0
+      (this.state.countDownMilli !== 0
+        ? this.state.countDownMilli
+        : this.state.type === "session"
         ? this.state.workTime
-        : this.state.countDownMilli) *
+        : this.state.breakTime) *
         60000;
 
     var timer = () => {
@@ -56,18 +58,30 @@ export class App extends Component {
       var seconds = Math.floor((countDown % (1000 * 60)) / 1000);
 
       document.getElementById("time-left").innerHTML = minutes + ":" + seconds;
-      if (countDown < 0) {
+      if (seconds === 0) {
         clearInterval(timerId);
+        if (this.state.type === "session") {
+          this.setState({ type: "break" });
+        } else if (this.state.type === "break") {
+          handleReset();
+        }
       } else if (this.state.timerState === "paused") {
         clearInterval(timerId);
         var countDownConv = (countDown % (1000 * 60 * 60)) / (1000 * 60);
         this.setState({ countDownMilli: countDownConv });
       } else if (this.state.timerState === "reset") {
-        console.log("a reset");
-        clearTimeout(timerId);
+        clearInterval(timerId);
+        this.setState({
+          type: "session",
+          workTime: 25,
+          breakTime: 5,
+          countDownMilli: 0,
+          timerState: this.state.timer === "reset" ? "" : "reset",
+          timer: false,
+          startpause: false,
+        });
         document.getElementById("time-left").innerHTML =
           this.state.workTime + ":00";
-        this.setState({ timerSate: "" });
       }
     };
 
@@ -76,28 +90,26 @@ export class App extends Component {
       timerId = setInterval(timer, 100);
     }
 
-    const timerOn = () => {
-      if (this.state.timer === false) {
+    const timerOnOff = () => {
+      if (this.state.startpause) {
+        this.setState({
+          timer: !this.state.timer,
+          timerState: "paused",
+          startpause: !this.state.startpause,
+        });
+      } else {
         this.setState({
           timer: true,
-          countdownMin: this.state.workTime,
           timerState: "playing",
+          startpause: !this.state.startpause,
         });
       }
     };
-    const timerOff = () => {
-      if (this.state.timer) {
-        this.setState({ timer: false, timerState: "paused" }); // pause resets the timer
-      }
-    };
+
     const handleReset = () => {
-      this.setState({
-        workTime: 25,
-        breakTime: 5,
-        timer: false,
-        timerState: "reset",
-      });
+      this.setState({ timerState: "reset" });
     };
+
     return (
       <div className="components">
         <div className="web-title">Pomodoro Clock</div>
@@ -107,8 +119,7 @@ export class App extends Component {
         </div>
         <TimeDisplay {...this.state} />
         <div className="bottomcomp">
-          <Start timerOn={timerOn} />
-          <Pause timerOff={timerOff} />
+          <StartPause timerOnOff={timerOnOff} {...this.state} />
           <Reset handleReset={handleReset} />
         </div>
         <Footer className="footer" />
