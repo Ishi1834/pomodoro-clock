@@ -8,7 +8,11 @@ const TimeDisplay = (props) => {
       </div>
       <div className="time">
         <div id="time-left">
-          {props.type === "session" ? props.workTime : props.breakTime}:00
+          {props.timerDisplay !== ""
+            ? props.timerDisplay
+            : props.type === "session"
+            ? props.workTime + ":00"
+            : props.breakTime + ":00"}
         </div>
       </div>
     </div>

@@ -15,13 +15,32 @@ export class App extends Component {
       countDownMilli: 0,
       timerState: "",
       timer: false,
-      startpause: false,
+      startpause: "Start",
+      timerDisplay: "",
     };
+    this.handleWork = this.handleWork.bind(this);
+    this.handleBreak = this.handleBreak.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.timerOnOff = this.timerOnOff.bind(this);
+    this.timer = this.timer.bind(this);
+    this.handleSwitch = this.handleSwitch.bind(this);
   }
-
-  render() {
-    const handleWork = (someVal) => {
-      if (this.state.timer) return;
+  handleWork(someVal) {
+    if (this.state.timer) return;
+    if (this.state.timerState === "paused") {
+      clearInterval(this.timerId);
+      this.setState({
+        type: "session",
+        workTime: this.state.workTime,
+        breakTime: this.state.breakTime,
+        countDownMilli: 0,
+        timerState: "",
+        timer: false,
+        startpause: "Start",
+        countDownTime: 0,
+        timerDisplay: "",
+      });
+    } else {
       if (someVal === "increase") {
         if (this.state.workTime < 60) {
           this.setState({ workTime: this.state.workTime + 1 });
@@ -29,17 +48,125 @@ export class App extends Component {
       } else if (this.state.workTime > 1) {
         this.setState({ workTime: this.state.workTime - 1 });
       }
-    };
-    const handleBreak = (someVal) => {
-      if (this.state.timer) return;
-      if (someVal === "increase" && this.state.breakTime <= 60) {
+    }
+  }
+  handleBreak(someVal) {
+    if (this.state.timer) return;
+    if (this.state.timerState === "paused") {
+      clearInterval(this.timerId);
+      this.setState({
+        type: "session",
+        workTime: this.state.workTime,
+        breakTime: this.state.breakTime,
+        countDownMilli: 0,
+        timerState: "",
+        timer: false,
+        startpause: "Start",
+        countDownTime: 0,
+        timerDisplay: "",
+      });
+    } else {
+      if (someVal === "increase") {
         if (this.state.breakTime < 60) {
           this.setState({ breakTime: this.state.breakTime + 1 });
         }
       } else if (this.state.breakTime > 1) {
         this.setState({ breakTime: this.state.breakTime - 1 });
       }
-    };
+    }
+  }
+  handleReset() {
+    this.setState({ timerState: "reset" });
+    clearInterval(this.timerId);
+    this.setState({
+      type: "session",
+      workTime: 25,
+      breakTime: 5,
+      countDownMilli: 0,
+      timerState: "",
+      timer: false,
+      startpause: "Start",
+      countDownTime: 0,
+      timerDisplay: "",
+    });
+  }
+  timerOnOff() {
+    if (this.state.startpause === "Start") {
+      var countDownTime =
+        new Date().getTime() +
+        (this.state.countDownMilli !== 0
+          ? this.state.countDownMilli
+          : this.state.type === "session"
+          ? this.state.workTime
+          : this.state.breakTime) *
+          60000;
+      this.timerTrigger();
+      this.setState({
+        timer: !this.state.timer,
+        timerState: "playing",
+        startpause: "Pause",
+        countDownTime: countDownTime,
+      });
+    } else if (
+      this.state.timerDisplay === "0:0" &&
+      this.state.type === "break"
+    ) {
+      console.log("Do it here");
+      countDownTime = new Date().getTime() + this.state.breakTime * 60000;
+      clearInterval(this.timerId);
+      this.setState({
+        timer: !this.state.timer,
+        timerState: "playing",
+        startpause: "Pause",
+        countDownTime: countDownTime,
+      });
+      this.timerTrigger();
+    } else {
+      clearInterval(this.timerId);
+      this.setState({
+        countDownMilli: this.state.pauseTimer,
+        timer: false,
+        timerState: "paused",
+        startpause: "Start",
+      });
+
+      this.setState((prevstate) => ({
+        prevWork: prevstate.workTime,
+        prevBreak: prevstate.breakTime,
+      }));
+    }
+  }
+  handleSwitch() {
+    if (this.state.timerDisplay === "0:0") {
+      if (this.state.type === "session") {
+        this.setState({ type: "break" });
+        this.timerOnOff();
+      } else {
+        this.handleReset();
+      }
+    }
+  }
+  timerTrigger() {
+    this.timerId = setInterval(this.timer, 100);
+  }
+
+  timer() {
+    var now = new Date().getTime();
+
+    var countDown = this.state.countDownTime - now;
+
+    var minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+    var pauseTimer = (countDown % (1000 * 60 * 60)) / (1000 * 60);
+    this.setState({
+      timerDisplay: minutes + ":" + seconds,
+      pauseTimer: pauseTimer,
+    });
+    console.log(countDown);
+    this.handleSwitch();
+  }
+
+  /*from here
     var countDownTime =
       new Date().getTime() +
       (this.state.countDownMilli !== 0
@@ -56,8 +183,8 @@ export class App extends Component {
 
       var minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((countDown % (1000 * 60)) / 1000);
-
       document.getElementById("time-left").innerHTML = minutes + ":" + seconds;
+
       if (seconds === 0) {
         clearInterval(timerId);
         if (this.state.type === "session") {
@@ -69,19 +196,27 @@ export class App extends Component {
         clearInterval(timerId);
         var countDownConv = (countDown % (1000 * 60 * 60)) / (1000 * 60);
         this.setState({ countDownMilli: countDownConv });
+        this.setState((prevstate) => ({
+          prevWork: prevstate.workTime,
+          prevBreak: prevstate.breakTime,
+        }));
       } else if (this.state.timerState === "reset") {
         clearInterval(timerId);
-        this.setState({
-          type: "session",
-          workTime: 25,
-          breakTime: 5,
-          countDownMilli: 0,
-          timerState: this.state.timer === "reset" ? "" : "reset",
-          timer: false,
-          startpause: false,
-        });
         document.getElementById("time-left").innerHTML =
           this.state.workTime + ":00";
+      } else {
+        //have the below function outside timer so it runs when the program start and updates accordingly
+        if (
+          this.state.prevWork !== this.state.workTime &&
+          this.state.prevWork !== undefined
+        ) {
+          handleReset();
+        } else if (
+          this.state.prevBreak !== this.state.breakTime &&
+          this.state.prevBreak !== undefined
+        ) {
+          handleReset();
+        }
       }
     };
 
@@ -89,38 +224,20 @@ export class App extends Component {
     if (this.state.timer) {
       timerId = setInterval(timer, 100);
     }
+    */
 
-    const timerOnOff = () => {
-      if (this.state.startpause) {
-        this.setState({
-          timer: !this.state.timer,
-          timerState: "paused",
-          startpause: !this.state.startpause,
-        });
-      } else {
-        this.setState({
-          timer: true,
-          timerState: "playing",
-          startpause: !this.state.startpause,
-        });
-      }
-    };
-
-    const handleReset = () => {
-      this.setState({ timerState: "reset" });
-    };
-
+  render() {
     return (
       <div className="components">
         <div className="web-title">Pomodoro Clock</div>
         <div className="topcomp">
-          <Work {...this.state} handleWork={handleWork} />
-          <Break {...this.state} handleBreak={handleBreak} />
+          <Work {...this.state} handleWork={this.handleWork} />
+          <Break {...this.state} handleBreak={this.handleBreak} />
         </div>
         <TimeDisplay {...this.state} />
         <div className="bottomcomp">
-          <StartPause timerOnOff={timerOnOff} {...this.state} />
-          <Reset handleReset={handleReset} />
+          <StartPause {...this.state} timerOnOff={this.timerOnOff} />
+          <Reset handleReset={this.handleReset} />
         </div>
         <Footer className="footer" />
       </div>
