@@ -24,6 +24,7 @@ export class App extends Component {
     this.timerOnOff = this.timerOnOff.bind(this);
     this.timer = this.timer.bind(this);
     this.handleSwitch = this.handleSwitch.bind(this);
+    this.playAudio = this.playAudio.bind(this);
   }
   handleWork(someVal) {
     if (this.state.timer) return;
@@ -76,6 +77,8 @@ export class App extends Component {
     }
   }
   handleReset() {
+    this.audioPlay.pause();
+    this.audioPlay.currentTime = 0;
     this.setState({ timerState: "reset" });
     clearInterval(this.timerId);
     this.setState({
@@ -111,7 +114,6 @@ export class App extends Component {
       this.state.timerDisplay === "00:00" &&
       this.state.type === "break"
     ) {
-      console.log("Do it here");
       countDownTime = new Date().getTime() + this.state.breakTime * 60000;
       clearInterval(this.timerId);
       this.setState({
@@ -125,7 +127,6 @@ export class App extends Component {
       this.state.timerDisplay === "00:00" &&
       this.state.type === "session"
     ) {
-      console.log("Do it here");
       countDownTime = new Date().getTime() + this.state.workTime * 60000;
       clearInterval(this.timerId);
       this.setState({
@@ -152,10 +153,12 @@ export class App extends Component {
   }
   handleSwitch() {
     if (this.state.timerDisplay === "00:00") {
+      this.playAudio();
       if (this.state.type === "session") {
         this.setState({ type: "break" });
         this.timerOnOff();
       } else {
+        this.playAudio();
         this.setState({ type: "session" });
         this.timerOnOff();
       }
@@ -181,69 +184,11 @@ export class App extends Component {
       pauseTimer: pauseTimer,
       countDown: countDown,
     });
-    console.log(minutes, countDown);
     this.handleSwitch();
   }
-
-  /*from here
-    var countDownTime =
-      new Date().getTime() +
-      (this.state.countDownMilli !== 0
-        ? this.state.countDownMilli
-        : this.state.type === "session"
-        ? this.state.workTime
-        : this.state.breakTime) *
-        60000;
-
-    var timer = () => {
-      var now = new Date().getTime();
-
-      var countDown = countDownTime - now;
-
-      var minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((countDown % (1000 * 60)) / 1000);
-      document.getElementById("time-left").innerHTML = minutes + ":" + seconds;
-
-      if (seconds === 0) {
-        clearInterval(timerId);
-        if (this.state.type === "session") {
-          this.setState({ type: "break" });
-        } else if (this.state.type === "break") {
-          handleReset();
-        }
-      } else if (this.state.timerState === "paused") {
-        clearInterval(timerId);
-        var countDownConv = (countDown % (1000 * 60 * 60)) / (1000 * 60);
-        this.setState({ countDownMilli: countDownConv });
-        this.setState((prevstate) => ({
-          prevWork: prevstate.workTime,
-          prevBreak: prevstate.breakTime,
-        }));
-      } else if (this.state.timerState === "reset") {
-        clearInterval(timerId);
-        document.getElementById("time-left").innerHTML =
-          this.state.workTime + ":00";
-      } else {
-        //have the below function outside timer so it runs when the program start and updates accordingly
-        if (
-          this.state.prevWork !== this.state.workTime &&
-          this.state.prevWork !== undefined
-        ) {
-          handleReset();
-        } else if (
-          this.state.prevBreak !== this.state.breakTime &&
-          this.state.prevBreak !== undefined
-        ) {
-          handleReset();
-        }
-      }
-    };
-
-    var timerId;
-    if (this.state.timer) {
-      timerId = setInterval(timer, 100);
-    }
-    */
+  playAudio() {
+    this.audioPlay.play();
+  }
 
   render() {
     return (
@@ -259,6 +204,16 @@ export class App extends Component {
           <Reset handleReset={this.handleReset} />
         </div>
         <Footer className="footer" />
+        <audio
+          id="beep"
+          preload="auto"
+          hidden="true"
+          ref={(audio) => {
+            this.audioPlay = audio;
+          }}
+          src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+          controls
+        />
       </div>
     );
   }
