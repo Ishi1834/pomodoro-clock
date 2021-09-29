@@ -108,14 +108,28 @@ export class App extends Component {
         countDownTime: countDownTime,
       });
     } else if (
-      this.state.timerDisplay === "0:0" &&
+      this.state.timerDisplay === "00:00" &&
       this.state.type === "break"
     ) {
       console.log("Do it here");
       countDownTime = new Date().getTime() + this.state.breakTime * 60000;
       clearInterval(this.timerId);
       this.setState({
-        timer: !this.state.timer,
+        timer: true,
+        timerState: "playing",
+        startpause: "Pause",
+        countDownTime: countDownTime,
+      });
+      this.timerTrigger();
+    } else if (
+      this.state.timerDisplay === "00:00" &&
+      this.state.type === "session"
+    ) {
+      console.log("Do it here");
+      countDownTime = new Date().getTime() + this.state.workTime * 60000;
+      clearInterval(this.timerId);
+      this.setState({
+        timer: true,
         timerState: "playing",
         startpause: "Pause",
         countDownTime: countDownTime,
@@ -137,12 +151,13 @@ export class App extends Component {
     }
   }
   handleSwitch() {
-    if (this.state.timerDisplay === "0:0") {
+    if (this.state.timerDisplay === "00:00") {
       if (this.state.type === "session") {
         this.setState({ type: "break" });
         this.timerOnOff();
       } else {
-        this.handleReset();
+        this.setState({ type: "session" });
+        this.timerOnOff();
       }
     }
   }
@@ -155,12 +170,15 @@ export class App extends Component {
 
     var countDown = this.state.countDownTime - now;
 
-    var minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+    var minutesAA = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+    var minutes = minutesAA < 10 ? minutesAA + "0" : minutesAA;
+    var secondsAA = Math.floor((countDown % (1000 * 60)) / 1000);
+    var seconds = secondsAA < 10 ? "0" + secondsAA : secondsAA;
     var pauseTimer = (countDown % (1000 * 60 * 60)) / (1000 * 60);
     this.setState({
       timerDisplay: minutes + ":" + seconds,
       pauseTimer: pauseTimer,
+      countDown: countDown,
     });
     console.log(countDown);
     this.handleSwitch();
