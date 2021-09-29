@@ -171,7 +171,8 @@ export class App extends Component {
     var countDown = this.state.countDownTime - now;
 
     var minutesAA = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-    var minutes = minutesAA < 10 ? minutesAA + "0" : minutesAA;
+    var minutes =
+      minutesAA < 10 && countDown < 600000 ? "0" + minutesAA : minutesAA; //countdown is redundant
     var secondsAA = Math.floor((countDown % (1000 * 60)) / 1000);
     var seconds = secondsAA < 10 ? "0" + secondsAA : secondsAA;
     var pauseTimer = (countDown % (1000 * 60 * 60)) / (1000 * 60);
@@ -180,7 +181,7 @@ export class App extends Component {
       pauseTimer: pauseTimer,
       countDown: countDown,
     });
-    console.log(countDown);
+    console.log(minutes, countDown);
     this.handleSwitch();
   }
 
