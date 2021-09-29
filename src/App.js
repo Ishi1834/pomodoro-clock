@@ -114,6 +114,7 @@ export class App extends Component {
       this.state.timerDisplay === "00:00" &&
       this.state.type === "break"
     ) {
+      console.log(this.state.breakTime);
       countDownTime = new Date().getTime() + this.state.breakTime * 60000;
       clearInterval(this.timerId);
       this.setState({
@@ -127,6 +128,7 @@ export class App extends Component {
       this.state.timerDisplay === "00:00" &&
       this.state.type === "session"
     ) {
+      console.log(this.state.workTime);
       countDownTime = new Date().getTime() + this.state.workTime * 60000;
       clearInterval(this.timerId);
       this.setState({
@@ -155,7 +157,7 @@ export class App extends Component {
     if (this.state.timerDisplay === "00:00") {
       this.playAudio();
       if (this.state.type === "session") {
-        this.setState({ type: "break" });
+        this.setState({ type: "break" }); //added worktime
         this.timerOnOff();
       } else {
         this.playAudio();
@@ -207,7 +209,7 @@ export class App extends Component {
         <audio
           id="beep"
           preload="auto"
-          hidden="true"
+          hidden={true}
           ref={(audio) => {
             this.audioPlay = audio;
           }}
