@@ -1,5 +1,21 @@
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 .components {
-  color: green;
+  color: black;
   display: grid;
   justify-content: center;
   height: 700px;
@@ -7,14 +23,14 @@
 }
 .web-title {
   text-align: center;
-  font-size: 40px;
+  font-size: 60px;
   font-weight: 800;
   margin: 20px;
 }
 .topcomp {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
+  grid-gap: 80px;
   text-align: center;
   margin: 20px;
 }
@@ -29,6 +45,13 @@
 }
 .title {
   font-size: 25px;
+  font-weight: 700;
+  margin: 5px;
+  padding: 5px;
+}
+.change-title {
+  font-size: 20px;
+  margin: 5px;
 }
 .time-adjust {
   display: flex;
@@ -60,8 +83,35 @@
   display: grid;
 }
 button {
-  margin: 5px auto;
+  background: #f18ce4af;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 8px;
+  height: 30px;
+  line-height: 30px;
+  color: #000000;
   width: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0px;
+  margin: 5px auto;
+  -webkit-box-shadow: 1px 1px 20px 0 #000000;
+  -moz-box-shadow: 1px 1px 20px 0 #000000;
+  box-shadow: 1px 1px 20px 0 #000000;
+
+  border: solid #337fed 1px;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+button:hover {
+  border: solid #f90ce4af 2px;
+  background: #f18ce4af;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  text-decoration: none;
 }
 .bottomcomp {
   display: grid;
@@ -72,6 +122,7 @@ button {
   margin: 10px auto;
 }
 .footer {
+  font-size: 18px;
   text-align: center;
   margin: 10px;
   line-height: 2px;

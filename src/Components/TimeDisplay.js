@@ -3,7 +3,7 @@ import React from "react";
 const TimeDisplay = (props) => {
   return (
     <div className="timer">
-      <div id="timer-label">
+      <div id="timer-label" className="title">
         {props.type === "session" ? "Work session" : "Break session"}
       </div>
       <div className="time">

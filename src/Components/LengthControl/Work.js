@@ -16,12 +16,20 @@ const Work = (props) => {
           <div id="session-length">{props.workTime}</div>
         </div>
         <div className="interval-grid">
-          <div>Change time interval</div>
+          <div className="change-title">Change time interval</div>
           <div className="interval-changer">
-            <button onClick={handleIncrease} id="session-increment">
+            <button
+              onClick={handleIncrease}
+              id="session-increment"
+              className="button-style"
+            >
               Increase
             </button>
-            <button onClick={handleDecrease} id="session-decrement">
+            <button
+              onClick={handleDecrease}
+              id="session-decrement"
+              className="button-style"
+            >
               Decrease
             </button>
           </div>
