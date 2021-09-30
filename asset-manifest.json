@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/%7Bpomodoro-clock%7D/static/css/main.5d0dc301.chunk.css",
-    "main.js": "/%7Bpomodoro-clock%7D/static/js/main.e13c286b.chunk.js",
-    "main.js.map": "/%7Bpomodoro-clock%7D/static/js/main.e13c286b.chunk.js.map",
-    "runtime-main.js": "/%7Bpomodoro-clock%7D/static/js/runtime-main.906a8875.js",
-    "runtime-main.js.map": "/%7Bpomodoro-clock%7D/static/js/runtime-main.906a8875.js.map",
-    "static/js/2.4edcace1.chunk.js": "/%7Bpomodoro-clock%7D/static/js/2.4edcace1.chunk.js",
-    "static/js/2.4edcace1.chunk.js.map": "/%7Bpomodoro-clock%7D/static/js/2.4edcace1.chunk.js.map",
-    "static/js/3.9c6074d8.chunk.js": "/%7Bpomodoro-clock%7D/static/js/3.9c6074d8.chunk.js",
-    "static/js/3.9c6074d8.chunk.js.map": "/%7Bpomodoro-clock%7D/static/js/3.9c6074d8.chunk.js.map",
-    "index.html": "/%7Bpomodoro-clock%7D/index.html",
-    "static/css/main.5d0dc301.chunk.css.map": "/%7Bpomodoro-clock%7D/static/css/main.5d0dc301.chunk.css.map",
-    "static/js/2.4edcace1.chunk.js.LICENSE.txt": "/%7Bpomodoro-clock%7D/static/js/2.4edcace1.chunk.js.LICENSE.txt"
+    "main.css": "/pomodoro-clock/static/css/main.5d0dc301.chunk.css",
+    "main.js": "/pomodoro-clock/static/js/main.e13c286b.chunk.js",
+    "main.js.map": "/pomodoro-clock/static/js/main.e13c286b.chunk.js.map",
+    "runtime-main.js": "/pomodoro-clock/static/js/runtime-main.b4ce056f.js",
+    "runtime-main.js.map": "/pomodoro-clock/static/js/runtime-main.b4ce056f.js.map",
+    "static/js/2.4edcace1.chunk.js": "/pomodoro-clock/static/js/2.4edcace1.chunk.js",
+    "static/js/2.4edcace1.chunk.js.map": "/pomodoro-clock/static/js/2.4edcace1.chunk.js.map",
+    "static/js/3.9c6074d8.chunk.js": "/pomodoro-clock/static/js/3.9c6074d8.chunk.js",
+    "static/js/3.9c6074d8.chunk.js.map": "/pomodoro-clock/static/js/3.9c6074d8.chunk.js.map",
+    "index.html": "/pomodoro-clock/index.html",
+    "static/css/main.5d0dc301.chunk.css.map": "/pomodoro-clock/static/css/main.5d0dc301.chunk.css.map",
+    "static/js/2.4edcace1.chunk.js.LICENSE.txt": "/pomodoro-clock/static/js/2.4edcace1.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.906a8875.js",
+    "static/js/runtime-main.b4ce056f.js",
     "static/js/2.4edcace1.chunk.js",
     "static/css/main.5d0dc301.chunk.css",
     "static/js/main.e13c286b.chunk.js"
