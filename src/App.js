@@ -114,7 +114,6 @@ export class App extends Component {
       this.state.timerDisplay === "00:00" &&
       this.state.type === "break"
     ) {
-      console.log(this.state.breakTime);
       countDownTime = new Date().getTime() + this.state.breakTime * 60000;
       clearInterval(this.timerId);
       this.setState({
@@ -128,7 +127,6 @@ export class App extends Component {
       this.state.timerDisplay === "00:00" &&
       this.state.type === "session"
     ) {
-      console.log(this.state.workTime);
       countDownTime = new Date().getTime() + this.state.workTime * 60000;
       clearInterval(this.timerId);
       this.setState({
@@ -157,7 +155,7 @@ export class App extends Component {
     if (this.state.timerDisplay === "00:00") {
       this.playAudio();
       if (this.state.type === "session") {
-        this.setState({ type: "break" }); //added worktime
+        this.setState({ type: "break" });
         this.timerOnOff();
       } else {
         this.playAudio();
@@ -171,25 +169,45 @@ export class App extends Component {
   }
 
   timer() {
-    var now = new Date().getTime();
+    if (this.state.timerDisplay === "00:00") {
+      if (this.state.type === "session") {
+        this.setState({
+          timerDisplay: "0" + this.state.workTime + ":00",
+        });
+      } else if (this.state.type === "break") {
+        this.setState({ timerDisplay: "0" + this.state.breakTime + ":00" });
+      }
+    } else {
+      var now = new Date().getTime();
 
-    var countDown = this.state.countDownTime - now;
+      var countDown = this.state.countDownTime - now;
 
-    var minutesAA = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
-    var minutes =
-      minutesAA < 10 && countDown < 600000 ? "0" + minutesAA : minutesAA; //countdown is redundant
-    var secondsAA = Math.floor((countDown % (1000 * 60)) / 1000);
-    var seconds = secondsAA < 10 ? "0" + secondsAA : secondsAA;
-    var pauseTimer = (countDown % (1000 * 60 * 60)) / (1000 * 60);
-    this.setState({
-      timerDisplay: minutes + ":" + seconds,
-      pauseTimer: pauseTimer,
-      countDown: countDown,
-    });
+      var minutesAA = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+      var minutes =
+        minutesAA < 10 && countDown < 600000 ? "0" + minutesAA : minutesAA; //countdown is redundant
+      var secondsAA = Math.floor((countDown % (1000 * 60)) / 1000);
+      var seconds = secondsAA < 10 ? "0" + secondsAA : secondsAA;
+      var pauseTimer = (countDown % (1000 * 60 * 60)) / (1000 * 60);
+      this.setState({
+        timerDisplay: minutes + ":" + seconds,
+        pauseTimer: pauseTimer,
+        countDown: countDown,
+      });
+    }
     this.handleSwitch();
   }
   playAudio() {
-    this.audioPlay.play();
+    const playPromise = this.audioPlay.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then((_) => {
+          console.log("audio played auto");
+        })
+        .catch((error) => {
+          console.log("playback prevented");
+        });
+    }
   }
 
   render() {
