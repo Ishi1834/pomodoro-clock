@@ -1,18 +1,6 @@
 body {
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background: #23a6d5;
   background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 .components {
   color: black;
@@ -78,10 +66,12 @@ body {
 }
 .interval-grid {
   display: grid;
+  grid-gap: 3px;
 }
 .interval-changer {
   display: grid;
 }
+
 button {
   background: #f18ce4af;
   -webkit-border-radius: 20px;
@@ -126,4 +116,34 @@ button:hover {
   text-align: center;
   margin: 10px;
   line-height: 2px;
+}
+a {
+  text-decoration: none;
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  body {
+    margin: 50px;
+  }
+  .web-title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 800;
+    margin: 10px;
+  }
+  .topcomp {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 40px;
+    text-align: center;
+    margin: 20px;
+  }
+  .interval-grid {
+    display: grid;
+    grid-gap: 5px;
+  }
+  .interval-changer {
+    display: grid;
+    grid-gap: 4px;
+  }
 }

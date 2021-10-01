@@ -223,6 +223,7 @@ export class App extends Component {
           <StartPause {...this.state} timerOnOff={this.timerOnOff} />
           <Reset handleReset={this.handleReset} />
         </div>
+
         <Footer className="footer" />
         <audio
           id="beep"
